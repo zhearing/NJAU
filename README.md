@@ -1,4 +1,4 @@
-#Snap</br>
+# Snap</br>
 **Function**: Sorting yellow leaves from the vegetables</br>
 **Description**: The system is based on machine vision and robotic control technology for sorting vegetables and 
 yellow leaves. First, the camera completes the acquisition of the image data of the obtained RGB color flow image 
