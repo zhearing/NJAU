@@ -39,5 +39,5 @@ we use servo like this:
 #1P900#2P1100#3P544#4P1144#5P2144#6P21100T500
 ```
 
-## Project samples (Yotube video):
+## Project samples (Youtube video):
 [![Example video](http://img.youtube.com/vi/lTUlrcDPlNk/0.jpg)](https://youtu.be/lTUlrcDPlNk)
