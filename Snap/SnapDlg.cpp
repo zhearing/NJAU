@@ -174,44 +174,44 @@ BOOL CSnapDlg::OnInitDialog()
 	SetIcon(m_hIcon, FALSE);		// 设置小图标
 
 	//搜索串口
-	//HANDLE m_hCom;
-	//CString com[6] = { "COM1", "COM2", "COM3", "COM4", "COM5", "COM6" };
-	//CString str = "";
-	//int cnt = 0;
-	//for (int i = 0; i < 6; i++)
-	//{
-	//	m_hCom = CreateFile(com[i], GENERIC_READ | GENERIC_WRITE, 0, NULL,
-	//		OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL | FILE_FLAG_OVERLAPPED, NULL);
-	//	// 这里的CreateFile函数起了很大的作用，可以用来创建系统设备文件，
-	//	//如果该设备不存在或者被占用，则会返回一个错误，
-	//	//即下面的 INVALID_HANDLE_VALUE ，据此可以判断可使用性。详细参见MSDN中的介绍。
-	//	if (m_hCom == INVALID_HANDLE_VALUE)	// 如果没有该设备，或者被其他应用程序在用   
-	//	{
-	//		str += com[i];// 记录下该串口名称，以备后面提示用
-	//		str += " ";
-	//	}
-	//	else
-	//		cnt = i + 1;// 如果存在，则记录下来。
-	//	//这里只记录了一个，也可以采用一个数组来记录所有存在串口；
-	//	CloseHandle(m_hCom);// 关闭文件句柄，后面我们采用控件，不用API
-	//}
-	//if (cnt)// 如果串口存在，则执行相应的初始化（采用控件）
-	//{
-	//	if (m_ctrlComm.get_PortOpen())// m_ctrlMscom是控件的一个实例
-	//		m_ctrlComm.put_PortOpen(FALSE);
-	//	m_ctrlComm.put_CommPort(cnt);
-	//	if (!m_ctrlComm.get_PortOpen())
-	//		m_ctrlComm.put_PortOpen(TRUE);
-	//	m_ctrlComm.put_RThreshold(2);//收到两个字节引发OnComm事件	
-	//	m_ctrlComm.put_Settings(_T("115200,n,8,1"));//设置串口参数，波特率，无奇偶校验，位停止位，位数据位	
-	//	m_ctrlComm.put_InputMode(1);  // 以二进制方式检取数据 
-	//	m_ctrlComm.put_RThreshold(1); //参数1表示每当串口接收缓冲区中有多于或等于1个字符时
-	//	//将引发一个接收数据的OnComm事件 
-	//	m_ctrlComm.put_InputLen(0); //设置当前接收区数据长度为0 
-	//	m_ctrlComm.get_Input();//先预读缓冲区以清除残留数据 
-	//}
-	//else	   // 如果不存在，则显示错误信息，而不进行串口操作，防止系统异常造成界面的初始化不完全
-	//	AfxMessageBox(str + "doesn't exist or is being used by other program", MB_OK);
+	HANDLE m_hCom;
+	CString com[6] = { "COM1", "COM2", "COM3", "COM4", "COM5", "COM6" };
+	CString str = "";
+	int cnt = 0;
+	for (int i = 0; i < 6; i++)
+	{
+		m_hCom = CreateFile(com[i], GENERIC_READ | GENERIC_WRITE, 0, NULL,
+			OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL | FILE_FLAG_OVERLAPPED, NULL);
+		// 这里的CreateFile函数起了很大的作用，可以用来创建系统设备文件，
+		//如果该设备不存在或者被占用，则会返回一个错误，
+		//即下面的 INVALID_HANDLE_VALUE ，据此可以判断可使用性。详细参见MSDN中的介绍。
+		if (m_hCom == INVALID_HANDLE_VALUE)	// 如果没有该设备，或者被其他应用程序在用   
+		{
+			str += com[i];// 记录下该串口名称，以备后面提示用
+			str += " ";
+		}
+		else
+			cnt = i + 1;// 如果存在，则记录下来。
+		//这里只记录了一个，也可以采用一个数组来记录所有存在串口；
+		CloseHandle(m_hCom);// 关闭文件句柄，后面我们采用控件，不用API
+	}
+	if (cnt)// 如果串口存在，则执行相应的初始化（采用控件）
+	{
+		if (m_ctrlComm.get_PortOpen())// m_ctrlMscom是控件的一个实例
+			m_ctrlComm.put_PortOpen(FALSE);
+		m_ctrlComm.put_CommPort(cnt);
+		if (!m_ctrlComm.get_PortOpen())
+			m_ctrlComm.put_PortOpen(TRUE);
+		m_ctrlComm.put_RThreshold(2);//收到两个字节引发OnComm事件	
+		m_ctrlComm.put_Settings(_T("115200,n,8,1"));//设置串口参数，波特率，无奇偶校验，位停止位，位数据位	
+		m_ctrlComm.put_InputMode(1);  // 以二进制方式检取数据 
+		m_ctrlComm.put_RThreshold(1); //参数1表示每当串口接收缓冲区中有多于或等于1个字符时
+		//将引发一个接收数据的OnComm事件 
+		m_ctrlComm.put_InputLen(0); //设置当前接收区数据长度为0 
+		m_ctrlComm.get_Input();//先预读缓冲区以清除残留数据 
+	}
+	else	   // 如果不存在，则显示错误信息，而不进行串口操作，防止系统异常造成界面的初始化不完全
+		AfxMessageBox(str + "doesn't exist or is being used by other program", MB_OK);
 
 	SetTimer(1, 1000, NULL); //ID为1，定时1000ms
 	SetTimer(2, 10, NULL); //ID为2，定时1000ms
@@ -278,28 +278,28 @@ END_EVENTSINK_MAP()
 //serial port communication
 void CSnapDlg::OnCommMscomm1()
 {
-	//VARIANT variant_inp;
-	//COleSafeArray safearray_inp;
-	//LONG len, k;
-	//BYTE rxdata[2048];
-	//CString strtemp;
-	//if (m_ctrlComm.get_CommEvent() == 2) //事件值为2表示接收缓冲区内有字符     
-	//{
-	//	variant_inp = m_ctrlComm.get_Input(); //读缓冲区  
-	//	safearray_inp = variant_inp; //VARIANT型变量转换为ColeSafeArray型变量
-	//	len = safearray_inp.GetOneDimSize(); //得到有效数据长度        
-	//	for (k = 0; k < len; k++)
-	//		safearray_inp.GetElement(&k, rxdata + k);//转换为BYTE型数组         
-	//	for (k = 0; k < len; k++)                    //将数组转换为Cstring型变量    
-	//	{
-	//		BYTE bt = *(char*)(rxdata + k);//字符型      
-	//		strtemp.Format("%c", bt); //将字符送入临时变量strtemp存放   
-	//		//此处编译有错误，可在项目属性->配置属性->常规里将“字符集”改为使用多字节字符集即可
-	//		m_strRXData += strtemp; //加入接收编辑框对应字符串      
-	//	}
-	//}
-	//m_strRXData = m_strRXData + "\r\n";
-	//UpdateData(FALSE); //更新编辑框内容 
+	VARIANT variant_inp;
+	COleSafeArray safearray_inp;
+	LONG len, k;
+	BYTE rxdata[2048];
+	CString strtemp;
+	if (m_ctrlComm.get_CommEvent() == 2) //事件值为2表示接收缓冲区内有字符     
+	{
+		variant_inp = m_ctrlComm.get_Input(); //读缓冲区  
+		safearray_inp = variant_inp; //VARIANT型变量转换为ColeSafeArray型变量
+		len = safearray_inp.GetOneDimSize(); //得到有效数据长度        
+		for (k = 0; k < len; k++)
+			safearray_inp.GetElement(&k, rxdata + k);//转换为BYTE型数组         
+		for (k = 0; k < len; k++)                    //将数组转换为Cstring型变量    
+		{
+			BYTE bt = *(char*)(rxdata + k);//字符型      
+			strtemp.Format("%c", bt); //将字符送入临时变量strtemp存放   
+			//此处编译有错误，可在项目属性->配置属性->常规里将“字符集”改为使用多字节字符集即可
+			m_strRXData += strtemp; //加入接收编辑框对应字符串      
+		}
+	}
+	m_strRXData = m_strRXData + "\r\n";
+	UpdateData(FALSE); //更新编辑框内容 
 }
 
 int CSnapDlg::otsu(IplImage* src)
@@ -481,7 +481,7 @@ void CSnapDlg::grabYellow()
 	IplImage * HImg = cvCreateImage(cvGetSize(img), img->depth, 1);
 	IplImage * SImg = cvCreateImage(cvGetSize(img), img->depth, 1);
 	IplImage * IImg = cvCreateImage(cvGetSize(img), img->depth, 1);
-	
+
 	//Lab模型转换
 	IplImage *img_LAB = cvCreateImage(cvGetSize(img), img->depth, 3);
 	IplImage *channel_L = cvCreateImage(cvGetSize(img), img->depth, 1);
@@ -731,30 +731,6 @@ int CSnapDlg::calculateDelay(int centerX)
 	delay = int((-0.1327 * centerX + 7.8179) * 1000) + err;
 	return delay;
 }
-
-/*************************************************
-Description: // 函数功能、性能等的描述
-Calls: // 被本函数调用的函数清单
-Called By: // 调用本函数的函数清单
-Table Accessed: // 被访问的表（此项仅对于牵扯到数据库操作的程序）
-Table Updated: // 被修改的表（此项仅对于牵扯到数据库操作的程序）
-Input: // 输入参数说明，包括每个参数的作
-// 用、取值说明及参数间关系。
-Output: // 对输出参数的说明。
-Return: void
-Others: 
-*************************************************/
-/*************************************************
-//Method: onMouse
-//Description: do the actions after onMouse event is called
-// Author: Zeyu Zhong
-// Date: 2017/07/13
-//Returns: void
-//Parameter: event
-//Parameter: x Mouse's coordinate
-//Parameter: y
-//History:
-*************************************************/
 
 void CSnapDlg::OnBnClickedButtonSend25()
 {
