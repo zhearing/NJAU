@@ -7,9 +7,9 @@ The system is based on machine vision and robotic control for sorting yellow lea
 First, the camera completes the acquisition of the image data of the obtained RGB color image segmentation 
 and image processing to obtain the binarization contour vegetables and average color histogram, 
 automatic screening algorithm requires sorting through yellow leaves; secondly, 
-considering run error of the asembly line , give the centroid; 
-then PC calculate the corresponding steering angle control, and finally converted into control 
-commands from the calculated value based on the ARM controller servo rotation. 
+considering run error of the asembly line, calculate the centroid; 
+then PC calculate the corresponding steering angle control,  converting the calculated value into control 
+commands which was transported through the serial port; finally, basing on the ARM controller, servo rotate. 
 
 
 ## Features
